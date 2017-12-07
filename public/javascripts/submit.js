@@ -15,7 +15,7 @@ function submitExecl() {
   let node = $('.node');
   formData.append('execl', file);  //这里的execl名就是这个值域名
   $.ajax({  
-      url: 'http://localhost:8080/execlparser' ,  
+      url: 'http://106.14.112.230:8080/execlparser' ,  
       type: 'POST',  
       data: formData,  
       async: true,  
