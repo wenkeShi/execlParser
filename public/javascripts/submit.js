@@ -15,7 +15,7 @@ function submitExecl() {
   let node = $('.node');
   formData.append('execl', file);  //这里的execl名就是这个值域名
   $.ajax({  
-      url: 'http://106.14.112.230:8080/execlparser' ,  
+      url: 'http://localhost:8080/execlparser' ,  
       type: 'POST',  
       data: formData,  
       async: true,  
@@ -42,7 +42,7 @@ function submitExecl() {
 
         gridData.zero.forEach((item, index) => {
           if(index == gridData.zero.length-1){
-            gridText += (item.gridName+'('+item.person+')；\n');
+            gridText += (item.gridName+'('+item.person+')；<br />');
           }else{
             gridText += (item.gridName+'('+item.person+')、');
           }
@@ -52,7 +52,7 @@ function submitExecl() {
         let last3 = ldjs.last3;
         gridText += '三、劳动竞赛参与情况：截止'+ dateStr 
         + '完成劳动竞赛进度'+ (ldjs.jd*100).toString().substr(0,5)
-        +'%，欠时间进度'+(-ldjs.qian*100).toString().substr(0,5)
+        +'%，欠时间进度'+(-ldjs.qian*100).toString().substr(0,4)
         +'%。月累计排名后3名的分别为'
         +last3[0].gridName+'('+last3[0].person+')，'
         +last3[1].gridName+'('+last3[1].person+')，'
@@ -71,24 +71,24 @@ function submitExecl() {
         }else{
           gridText += '无网格超时间进度；具体办理情况如下：'
         }
-        grid.text(gridText);
+        grid.html(gridText);
 
 
 
         let nodeData = res.node;
-        let nodeText = dateStr+'网点参与率情况通报：\n'
+        let nodeText = dateStr+'网点参与率情况通报：<br/>'
         +dateStr+'参与发展的网点共'+nodeData.fztotal
         +'家，参与劳动竞赛的网点共'+nodeData.ldtotal
         +'家，参与率仅为'+(nodeData.percent*100).toString().substr(0,5)
-        +'%；劳动竞赛网点基本要求为“一镇一店一日一新增”，当日发展具体情况如下：\n'
+        +'%；劳动竞赛网点基本要求为“一镇一店一日一新增”，当日发展具体情况如下：<br/>'
         +'一、参与率为0的网格：';
         if(nodeData.zeroPerc.length == 0){
-          nodeText+='无；\n'
+          nodeText+='无；<br/>'
         }else{
           nodeData.zeroPerc.forEach((item,index) => {
             // Todo...
             if(index == nodeData.zeroPerc.length-1){
-              nodeText += (item.gridName+'('+item.person+')；\n');
+              nodeText += (item.gridName+'('+item.person+')；<br/>');
             }else{
               nodeText += (item.gridName+'('+item.person+')、');
             }
@@ -96,23 +96,24 @@ function submitExecl() {
         }
 
         if(nodeData.low30.length ==0){
-          nodeText += '二、参与率低于30%的网格：无；\n三、未参与的网点明细如下；';
+          nodeText += '二、参与率低于30%的网格：无；<br/>三、未参与的网点明细如下；';
         }else{
           nodeText += '二、参与率低于30%的网格为';
           nodeData.low30.forEach((item,index) => {
             // Todo...
             if(index == nodeData.low30.length-1){
-              nodeText += (item.gridName+'('+item.person+')；\n三、未参与的网点明细如下；');
+              nodeText += (item.gridName+'('+item.person+')；<br/>三、未参与的网点明细如下；');
             }else{
               nodeText += (item.gridName+'('+item.person+')、');
             }
           });
         }
-        node.text(nodeText);
+        node.html(nodeText);
       },  
       error: function (returndata) {  
           //alert(returndata);
           grid.text('和说好的格式不一样呀...'); 
+          node.text('');
       }  
   });  
 }
